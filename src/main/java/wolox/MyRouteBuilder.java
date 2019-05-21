@@ -12,29 +12,29 @@ public class MyRouteBuilder extends RouteBuilder {
     private void configureSimpleRouting() {
         // noop	->	If true, the file is not moved or deleted in any way, is good for read only data
         from("file:src/data?noop=true")
-                // choice() is like a case
-                .choice()
-                // each when contains the condition to evaluate and what to do if it's true
-                .when(xpath("/person/city = 'London'"))
-                .log("UK message")
-                .to("file:target/messages/uk")
-                // The otherwise define the default flow if none of the when conditions is true
-                .otherwise()
-                .log("Other message")
-                .to("file:target/messages/others");
+            // choice() is like a case
+            .choice()
+            // each when contains the condition to evaluate and what to do if it's true
+            .when(xpath("/person/city = 'London'"))
+            .log("UK message")
+            .to("file:target/messages/uk")
+            // The otherwise define the default flow if none of the when conditions is true
+            .otherwise()
+            .log("Other message")
+            .to("file:target/messages/others");
     }
 
     private void configureRestRouting() {
         restConfiguration()
-                .component("restlet")
-                .host("localhost").port("8080")
-                .bindingMode(RestBindingMode.auto);
+            .component("restlet")
+            .host("localhost").port("8080")
+            .bindingMode(RestBindingMode.auto);
 
         rest().path("/api").consumes("application/json")
-                .get()
-                .to("bean:helloBean")
-                .post().type(PostRequestType.class)
-                .to("bean:postBean");
+            .get()
+            .to("bean:helloBean?method=sayHello()")
+            .post().type(PostRequestType.class)
+            .to("bean:postBean");
     }
 
     /**

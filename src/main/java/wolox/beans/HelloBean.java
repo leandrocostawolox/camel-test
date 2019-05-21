@@ -1,8 +1,8 @@
 package wolox.beans;
 
-import org.springframework.stereotype.Component;
+import org.apache.camel.spi.annotations.Component;
 
-@Component
+@Component("helloBean")
 public class HelloBean {
 
     public String sayHello() {
